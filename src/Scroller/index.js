@@ -1,38 +1,32 @@
-import React, {Component} from 'react';
+import React, {useEffect} from 'react';
 import './style.css'
 
-class Scroller extends Component {
-    constructor(props) {
-        super(props);
-        this.printScroll = this.printScroll.bind(this);
-    }
+const Scroller = ({onClose, children}) => {
 
-    printScroll() {
+    useEffect(() => {
+        document.title = 'Scroller';
+        document.addEventListener('scroll', printScroll, false);
+
+        return () => {
+            document.removeEventListener('scroll', printScroll, false);
+            document.title = 'Homepage'
+        }
+    });
+
+    function printScroll() {
         console.log('scrolling')
     }
 
-    componentDidMount() {
-        document.addEventListener('scroll', this.printScroll, false);
-        document.title = 'Scroller'
-    }
+    return (
+        <div className="Scroller">
+            <button onClick={() => onClose()} className="Scroller__close">hide Scroller</button>
 
-    componentWillUnmount() {
-        document.removeEventListener('scroll', this.printScroll, false);
-        document.title = 'Homepage'
-    }
-
-    render() {
-        return (
-            <div className="Scroller">
-                <button onClick={() => this.props.onClose()} className="Scroller__close">hide Scroller</button>
-
-                <div className="Scroller__content">
-                    {this.props.children}
-                </div>
+            <div className="Scroller__content">
+                {children}
             </div>
-        )
-    }
-}
+        </div>
+    )
+};
 
 
 export default Scroller;
