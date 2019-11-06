@@ -1,4 +1,4 @@
-import React, {useState, useRef} from 'react';
+import React, {useState, useEffect, useRef} from 'react';
 
 const App = () => {
     const [value, setValue] = useState('');
@@ -7,6 +7,10 @@ const App = () => {
     function fieldHandler() {
         setValue(fieldRef.current.value)
     }
+
+    useEffect(() => {
+        fieldRef.current.focus()
+    }, []);
 
     return (
         <div className="App">
