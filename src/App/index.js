@@ -1,39 +1,24 @@
-import React, {Component} from 'react';
-import Modal from '../Modal'
+import React, {useState, useEffect, useRef} from 'react';
 
-class App extends Component {
-    constructor(props) {
-        super(props);
+const App = () => {
+    const [value, setValue] = useState('');
+    const fieldRef = useRef(null);
 
-        this.state = {
-            isShowModal: false
-        }
+    function fieldHandler() {
+        setValue(fieldRef.current.value)
     }
 
-    render() {
-        return (
-            <div className="App">
-                <h1>Hello world</h1>
+    useEffect(() => {
+        fieldRef.current.focus()
+    }, []);
 
-                <button onClick={() => this.setState({isShowModal: true})}>show modal</button>
-
-
-                {this.state.isShowModal && (<Modal onClose={() => this.setState({isShowModal: false})}>
-                    {['', '', '', '', '', '', ''].map((i, idx) => (
-                        <p key={idx}>
-                            Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has
-                            been the industry's standard dummy text ever since the 1500s, when an unknown printer took a
-                            galley of type and scrambled it to make a type specimen book. It has survived not only five
-                            centuries, but also the leap into electronic typesetting, remaining essentially unchanged.
-                            It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum
-                            passages, and more recently with desktop publishing software like Aldus PageMaker including
-                            versions of Lorem Ipsum.
-                        </p>))}
-                </Modal>)}
-            </div>
-        )
-    }
-
-}
+    return (
+        <div className="App">
+            {value && <p>{value}</p>}
+            <input type="text" ref={fieldRef}/>
+            <button onClick={() => fieldHandler()}>Show value</button>
+        </div>
+    )
+};
 
 export default App;
